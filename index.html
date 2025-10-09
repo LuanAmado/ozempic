@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=index.php" />
-  <script>
-    window.location.href = "index.php";
-  </script>
-  <title>Redirecionando...</title>
-</head>
-<body>
-  <p>Redirecionando para a página principal...</p>
-</body>
-</html>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const url = new URL(window.location.href);
+    
+    // verifica se existe o parâmetro "bumbum"
+    if (url.searchParams.has("bumbum")) {
+      // cria uma nova URL baseada no mesmo domínio
+      const novaUrl = new URL(window.location.origin + "/inicio.html");
+      
+      // mantém todos os parâmetros da URL atual
+      novaUrl.search = url.search;
+      
+      // redireciona
+      window.location.replace(novaUrl.href);
+    }
+  });
+</script>
