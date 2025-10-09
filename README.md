@@ -1,2 +1,0 @@
-# ozempic
-teste_ozempic
