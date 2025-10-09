@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pergunta — Peso Atual (kg)</title>
+  <style>
+    :root{
+      --green:#16a34a; --green-2:#22c55e;
+      --muted:#64748b; --text:#0f172a;
+      --bg:#f8fafc; --white:#fff; --border:#e2e8f0;
+      --maxw:420px; --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",sans-serif;
+      display:flex; justify-content:center;
+    }
+    .wrap{
+      width:100%; max-width:var(--maxw); background:var(--white);
+      min-height:100vh; padding:20px 18px 28px;
+    }
+    .logo{text-align:center}
+    .logo img{max-width:180px;height:auto}
+
+    .progress{width:100%;height:15px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:12px 0 18px}
+    .progress span{display:block;height:100%;width:80%;background:var(--green-2)} /* ajuste a % se quiser */
+
+    h1{
+      text-align:center; font-size:22px; line-height:1.35; margin:8px 0 6px;
+      font-weight:800;
+    }
+    h1 .who{color:#0b1220}
+    h1 .q{color:var(--green)}
+    .sub{ text-align:center; font-size:14px; color:var(--muted); margin:0 0 16px; }
+
+    .unit{
+      display:inline-flex; gap:8px; align-items:center; justify-content:center;
+      margin:8px auto 4px; width:100%;
+      color:#0b1220; font-weight:600;
+    }
+    .value{
+      text-align:center; font-size:56px; font-weight:800; margin:6px 0 2px;
+    }
+    .value small{font-size:.35em; color:#0b1220; font-weight:700}
+
+    .slider-wrap{margin:18px 6px 4px}
+    input[type="range"]{
+      -webkit-appearance:none; appearance:none; width:100%; height:6px;
+      background:linear-gradient(to right, var(--green-2) 0% 50%, #e5e7eb 50% 100%);
+      border-radius:999px; outline:none;
+    }
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:48px; height:48px;
+  border-radius:50%;
+  background:#fff;
+  border:4px solid var(--green-2);
+  box-shadow:0 2px 8px rgba(22,163,74,.25);
+  cursor:pointer;
+}
+input[type="range"]::-moz-range-thumb{
+  width:48px; height:48px;
+  border-radius:50%;
+  background:#fff;
+  border:4px solid var(--green-2);
+  box-shadow:0 2px 8px rgba(22,163,74,.25);
+  cursor:pointer;
+}
+
+    .ticks{
+      display:flex; justify-content:space-between; color:#0b1220;
+      font-size:13px; margin-top:8px;
+    }
+    .hint{ text-align:center; font-size:13px; color:var(--muted); margin:10px 0 16px }
+
+    .btn{
+      margin-top:12px; width:100%; background:var(--green-2); color:#fff; border:none;
+      padding:16px; border-radius:999px; font-weight:700; font-size:17px; cursor:pointer;
+      box-shadow:0 8px 24px rgba(34,197,94,.35); transition:background .2s;
+    }
+    .btn:hover{ background:var(--green); }
+
+    @media (max-width:420px){
+      h1{font-size:21px}
+      .value{font-size:52px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo"><img src="logo.png" alt="Mounjaro de Pobre"></div>
+    <div class="progress"><span></span></div>
+
+    <h1>
+      <span class="who" id="nomeSpan">¿Cuál es tu </span>
+      <span class="q"> peso actual?</span>
+    </h1>
+    <p class="sub">¡Ya casi terminamos! Vamos a ajustar tu plan de acuerdo con tu cuerpo.</p>
+
+    <div class="value"><span id="pesoOut">87</span><small> kg</small></div>
+
+    <div class="slider-wrap">
+      <input id="pesoRange" type="range" min="40" max="150" step="1" value="87" aria-label="Selecione seu peso em quilogramas">
+      <div class="ticks">
+        <span>40</span><span>95</span><span>150</span>
+      </div>
+    </div>
+
+    <p class="hint">Desliza para ajustar</p>
+    <p class="sub" style="margin-top:0">Con base en esto, ajustaremos la dosis ideal para obtener los mejores resultados.</p>
+
+    <button class="btn" id="nextBtn">Continuar</button>
+  </div>
+
+  <script>
+    // --- helpers de cookie ---
+    function setCookie(name, value, days=30){
+      const d = new Date(); d.setTime(d.getTime() + (days*24*60*60*1000));
+      document.cookie = `${name}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
+    }
+    function getCookie(name){
+      const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([$?*|{}()[\]\\/+^])/g,'\\$1') + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+
+    // Personaliza com o nome (se existir)
+    (function personalizeTitle(){
+      const nome = getCookie('nome') || getCookie('primeiro_nome') || getCookie('nome_perfil');
+      if (nome) {
+        const clean = nome.trim().split(/\s+/)[0]; // primeiro nome
+        // Ex.: "Ana, qual é" + " seu peso atual?"
+        document.getElementById('nomeSpan').textContent = clean + ', qual é';
+      }
+    })();
+
+    // Slider + preenchimento dinâmico
+    const range = document.getElementById('pesoRange');
+    const out   = document.getElementById('pesoOut');
+
+    function updateUI(){
+      const v = parseInt(range.value, 10);
+      out.textContent = v.toString();
+      // fundo preenchido até o valor atual
+      const min = parseInt(range.min,10), max = parseInt(range.max,10);
+      const pct = ((v - min) * 100) / (max - min);
+      range.style.background = `linear-gradient(to right, var(--green-2) 0% ${pct}%, #e5e7eb ${pct}% 100%)`;
+    }
+
+    // valor inicial (se já tiver cookie salvo)
+    const saved = parseInt(getCookie('peso_kg') || '', 10);
+    if (!isNaN(saved) && saved >= 40 && saved <= 150) {
+      range.value = saved;
+    }
+    updateUI();
+
+    range.addEventListener('input', updateUI);
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const peso = parseInt(range.value, 10);
+      setCookie('peso_kg', isNaN(peso) ? '' : peso.toString(), 60);
+      // próxima página:
+      window.location.href = 'pergunta-12.html';
+    });
+  </script>
+</body>
+</html>

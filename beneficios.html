@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pergunta 9 - Benefícios desejados</title>
+  <style>
+    :root{
+      --green:#16a34a; --green-2:#22c55e;
+      --muted:#64748b; --text:#0f172a;
+      --bg:#f8fafc; --card:#f1f5f9; --white:#fff;
+      --border:#e2e8f0; --radius:16px; --maxw:420px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",sans-serif;
+      display:flex; justify-content:center;
+    }
+    .wrap{
+      width:100%; max-width:var(--maxw); background:var(--white);
+      min-height:100vh; padding:20px;
+    }
+    .logo{ text-align:center; }
+    .logo img{ max-width:180px; height:auto; }
+
+    .progress{ width:100%; height:15px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:10px 0 20px; }
+    .progress span{ display:block; height:100%; width:75%; background:var(--green-2); }
+
+    h2{
+      text-align:center; font-size:22px; line-height:1.25; margin:0 0 8px;
+    }
+    h2 .green{ color:var(--green); }
+    p.lead{ text-align:center; color:var(--muted); margin:0 0 18px; }
+
+    .list{ display:flex; flex-direction:column; gap:12px; }
+
+    .item{
+      position:relative; display:flex; align-items:center; gap:12px;
+      padding:14px; background:#ecfdf5; border:1px solid #bbf7d0;
+      border-radius:var(--radius); cursor:pointer; transition:background .2s, box-shadow .2s;
+    }
+    .item:hover{ background:#d1fae5; }
+    .item.active{ box-shadow:0 0 0 2px rgba(34,197,94,.35) inset; }
+
+    .icon{
+      flex:0 0 auto; width:36px; height:36px; border-radius:10px;
+      display:grid; place-items:center; background:#e0edff; color:#1d4ed8;
+      font-size:18px; font-weight:700;
+    }
+    .label{ flex:1; font-size:15px; color:#04111f; }
+
+    /* checkbox estilizado à direita */
+    .check{
+      flex:0 0 auto; width:28px; height:28px; border-radius:8px;
+      border:2px solid #cbd5e1; background:#fff; display:grid; place-items:center;
+      font-size:18px; color:#fff; transition: all .15s;
+    }
+    .item.active .check{ background:var(--green-2); border-color:var(--green-2); color:#fff; }
+    .check::after{ content:""; }
+    .item.active .check::after{ content:"✓"; font-weight:700; }
+
+    .btn{
+      margin-top:18px; width:100%;
+      background:var(--green-2); color:#fff; border:none;
+      padding:16px; border-radius:999px; font-weight:700; font-size:17px;
+      cursor:pointer; box-shadow:0 8px 24px rgba(34,197,94,.35); transition:opacity .2s, background .2s;
+    }
+    .btn[disabled]{ opacity:.55; cursor:not-allowed; box-shadow:none; }
+
+    @media (max-width:420px){
+      h2{font-size:20px}
+      .label{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo"><img src="logo.png" alt="Mounjaro de Pobre"></div>
+    <div class="progress"><span></span></div>
+
+    <h2><span class="green">¿Qué beneficios</span><br> te gustaría tener?</h2>
+    <p class="lead">👉 Vamos a personalizar tu fórmula para maximizar los resultados.</p>
+
+    <div class="list" id="benefitsList">
+      <div class="item" data-value="Emagrecer sem esforço e sem efeito sanfona">
+        <div class="icon">➡️</div>
+        <div class="label">Bajar de peso sin esfuerzo y sin efecto rebote</div>
+        <div class="check" aria-hidden="true"></div>
+      </div>
+
+      <div class="item" data-value="Sono mais profundo">
+        <div class="icon">➡️</div>
+        <div class="label">Sueño más profundo.</div>
+        <div class="check" aria-hidden="true"></div>
+      </div>
+
+      <div class="item" data-value="Mais energia e disposição ao longo do dia">
+        <div class="icon">➡️</div>
+        <div class="label">Más energía y disposición a lo largo del día.</div>
+        <div class="check" aria-hidden="true"></div>
+      </div>
+
+      <div class="item" data-value="Aumento da autoestima e confiança">
+        <div class="icon">➡️</div>
+        <div class="label">Mayor autoestima y confianza.</div>
+        <div class="check" aria-hidden="true"></div>
+      </div>
+
+      <div class="item" data-value="Redução do estresse e ansiedade">
+        <div class="icon">➡️</div>
+        <div class="label">Reducción del estrés y la ansiedad.</div>
+        <div class="check" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <button id="nextBtn" class="btn" disabled>Continuar</button>
+  </div>
+
+  <script>
+    // Util: cookies
+    function setCookie(name, value, days){
+      let expires = "";
+      if(days){
+        const d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + d.toUTCString();
+      }
+      document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+
+    const list = document.getElementById('benefitsList');
+    const btn  = document.getElementById('nextBtn');
+    const selected = new Set();
+
+    // Toggle no clique do card inteiro
+    list.querySelectorAll('.item').forEach(item => {
+      item.addEventListener('click', () => {
+        const val = item.getAttribute('data-value');
+        item.classList.toggle('active');
+        if(item.classList.contains('active')) selected.add(val);
+        else selected.delete(val);
+
+        btn.disabled = selected.size === 0;
+      });
+    });
+
+    // Continuar: salva e vai para próxima
+    btn.addEventListener('click', () => {
+      setCookie('beneficios_desejados', JSON.stringify(Array.from(selected)), 7);
+      window.location.href = 'pergunta-10.html';
+    });
+  </script>
+</body>
+</html>

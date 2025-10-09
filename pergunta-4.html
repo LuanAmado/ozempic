@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pergunta 4 - Mounjaro de Pobre</title>
+  <style>
+    :root{
+      --green:#16a34a;
+      --green-2:#22c55e;
+      --bg:#f8fafc;
+      --text:#111827;
+      --muted:#374151;
+      --radius:12px;
+      --maxw:420px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",sans-serif;
+      background: var(--bg);
+      display:flex; justify-content:center;
+      color: var(--text);
+    }
+    .container{
+      width:100%; max-width:var(--maxw);
+      background:#fff; min-height:100vh;
+      padding:20px;
+      display:flex; flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+    }
+    .logo{ text-align:center; margin-bottom:14px; }
+    .logo img{ max-width:180px; height:auto; }
+
+    .progress{
+      width:100%; height:15px; background:#e5e7eb;
+      border-radius:999px; overflow:hidden; margin:6px 0 22px;
+    }
+    .progress span{
+      display:block; height:100%; width:80%; /* passo 4 */
+      background: var(--green-2);
+      transition: width .3s ease;
+    }
+
+    h2{
+      font-size:22px; text-align:center; margin:20px 0 16px;
+    }
+    .form{
+      width:100%; display:flex; flex-direction:column;
+      gap:16px; align-items:center;
+    }
+    input{
+      width:100%;
+      padding:14px;
+      border:1px solid #d1d5db;
+      border-radius:999px;
+      font-size:16px;
+      outline:none;
+    }
+    input:focus{ border-color: var(--green-2); }
+
+    p.info{
+      text-align:center;
+      color: var(--muted);
+      font-size:14px;
+      margin:0;
+    }
+    button{
+      width:100%;
+      background: var(--green-2);
+      color:#fff;
+      border:none;
+      padding:14px;
+      border-radius:999px;
+      font-size:16px; font-weight:600;
+      cursor:pointer;
+      box-shadow: 0 4px 12px rgba(22,163,74,.4);
+      transition: background .2s;
+    }
+    button:hover{ background: var(--green); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="logo.png" alt="Mounjaro de Pobre">
+    </div>
+
+    <h2>¿Cuál es tu nombre?</h2>
+
+    <form class="form" id="quizForm">
+      <input type="text" id="nome" name="nome" placeholder="Escribe tu nombre..." required>
+      <p class="info">Para armar tu plan personalizado, necesitamos tu nombre. Tranquilo(a), tus datos están protegidos 👍</p>
+      <button type="submit">Continuar</button>
+    </form>
+  </div>
+
+  <script>
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + d.toUTCString();
+      }
+      document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+
+    document.getElementById("quizForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const nome = document.getElementById("nome").value.trim();
+      if(nome.length > 0){
+        setCookie("nome_usuario", nome, 7);
+        window.location.href = "pergunta-6.html";
+      }
+    });
+  </script>
+</body>
+</html>

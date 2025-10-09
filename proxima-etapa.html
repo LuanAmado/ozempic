@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pergunta — Cuerpo de tus sueños</title>
+  <style>
+    :root{
+      --green:#16a34a; --green-2:#22c55e;
+      --text:#111827; --muted:#374151;
+      --bg:#f8fafc; --white:#fff; --border:#e5e7eb;
+      --maxw:420px; --radius:14px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg); display:flex; justify-content:center;
+      color:var(--text);
+    }
+    .container{
+      width:100%; max-width:var(--maxw);
+      background:#fff; min-height:100vh;
+      padding:20px 18px 28px;
+    }
+    .logo{text-align:center;margin-bottom:14px}
+    .logo img{max-width:180px;height:auto}
+
+    .progress{
+      width:100%; height:8px; background:#e5e7eb;
+      border-radius:999px; overflow:hidden; margin:6px 0 22px;
+    }
+    .progress span{
+      display:block; height:100%; width:80%; /* ajuste % conforme etapa */
+      background: var(--green-2);
+    }
+
+    h2{
+      font-size:22px; text-align:center; margin-bottom:8px; line-height:1.35;
+    }
+    h2 .green{ color: var(--green); }
+    .sub{ text-align:center; font-size:14px; color:var(--muted); margin-bottom:18px; }
+
+    .options{
+      display:flex; justify-content:space-between; gap:14px;
+    }
+    .option{
+      flex:1; background:var(--bg);
+      border:2px solid var(--border);
+      border-radius:var(--radius);
+      cursor:pointer; text-align:center;
+      transition:transform .15s, background .2s, border-color .2s;
+      padding:12px;
+    }
+    .option:hover{ background:#f0fdf4; transform:scale(1.02); }
+    .option.selected{
+      border-color: var(--green-2);
+      background:#dcfce7;
+    }
+    .option img{width:100%; height:auto; border-radius:10px}
+    .option span{display:block; margin-top:8px; font-weight:600; font-size:15px}
+
+    .btn{
+      margin-top:22px; width:100%;
+      background:var(--green-2); color:#fff; border:none;
+      padding:16px; border-radius:999px; font-weight:700; font-size:17px;
+      cursor:pointer; box-shadow:0 8px 24px rgba(34,197,94,.35);
+      transition:background .2s;
+    }
+    .btn:hover{ background:var(--green); }
+
+    @media (max-width:420px){
+      h2{font-size:20px}
+      .option span{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo"><img src="logo.png" alt="Ozempic Natural"></div>
+    <div class="progress"><span></span></div>
+
+    <h2>¿Cuál es el <span class="green">cuerpo</span> de tus <span class="green">sueños</span>?</h2>
+    <p class="sub">Elige una opción:</p>
+
+    <div class="options">
+      <div class="option" data-value="En forma">
+        <img src="corpo1.png" alt="Cuerpo en forma">
+        <span>En forma</span>
+      </div>
+      <div class="option" data-value="Natural">
+        <img src="corpo2.png" alt="Cuerpo natural">
+        <span>Natural</span>
+      </div>
+    </div>
+<a href="gerar.html">
+    <button class="btn" id="nextBtn">GENERAR PROTOCOLO</button>
+</a>
+  </div>
+
+  <script>
+    const options = document.querySelectorAll('.option');
+    let selectedValue = null;
+
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        selectedValue = opt.getAttribute('data-value');
+      });
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if(!selectedValue){
+        alert('Por favor, selecciona una opción antes de continuar.');
+        return;
+      }
+      // Aqui você pode redirecionar ou processar o valor:
+      console.log('Opción seleccionada:', selectedValue);
+      // window.location.href = "proxima_pagina.html"; // Exemplo de próxima etapa
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - Mounjaro de Pobre</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .logo img {
+      max-width: 180px;
+      height: auto;
+    }
+    .progress {
+      width: 100%;
+      height: 15px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 10%; /* pode ajustar conforme o passo do quiz */
+      background: #22c55e;
+      transition: width .3s;
+    }
+    h2 {
+      font-size: 22px;
+      text-align: center;
+      margin: 0 0 10px;
+      color: #111827;
+    }
+    h2 span {
+      color: #16a34a;
+    }
+    p {
+      text-align: center;
+      color: #374151;
+      font-size: 14px;
+      margin: 0 0 20px;
+    }
+    .option {
+      display: block;
+      width: 100%;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #bbf7d0;
+      padding: 14px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .option:hover {
+      background: #d1fae5;
+    }
+    .option span {
+      float: right;
+      font-weight: bold;
+      color: #16a34a;
+    }
+    @media (max-width: 480px) {
+      h2 { font-size: 18px; }
+      .option { font-size: 15px; padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="logo.png" alt="Mounjaro de Pobre">
+    </div>
+
+    <div class="progress">
+      <span></span>
+    </div>
+
+    <h2>¿Cuántos kilos <span>deseas perder?</span></h2>
+    <p>El protocolo Ozempic Natural te ayuda a eliminar grasa de forma acelerada.</p>
+
+    <button class="option" data-value="Até 5 kg">Hasta 5 kg <span>›</span></button>
+    <button class="option" data-value="De 6 a 10 kg">De 6 a 10 kg <span>›</span></button>
+    <button class="option" data-value="De 11 a 15 kg">De 11 a 15 kg <span>›</span></button>
+    <button class="option" data-value="De 16 a 20 kg">De 16 a 20 kg <span>›</span></button>
+    <button class="option" data-value="Mais de 20 kg">Más de 20 kg <span>›</span></button>
+  </div>
+
+  <script>
+    // Função para salvar cookie
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    // Evento nos botões
+    document.querySelectorAll(".option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const value = btn.getAttribute("data-value");
+        setCookie("peso_perder", value, 7); // salva por 7 dias
+        window.location.href = "pergunta-2.html";
+      });
+    });
+  </script>
+</body>
+</html>

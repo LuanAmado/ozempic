@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pergunta 2 - Mounjaro de Pobre</title>
+  <style>
+    :root{
+      --green:#16a34a;
+      --green-2:#22c55e;
+      --card-bg:#ecfdf5;
+      --card-border:#bbf7d0;
+      --text:#111827;
+      --muted:#374151;
+      --bg:#f8fafc;
+      --radius:16px;
+      --maxw: 420px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      display:flex; justify-content:center;
+      color: var(--text);
+    }
+    .container{
+      width:100%; max-width:var(--maxw);
+      background:#fff; min-height:100vh;
+      padding:20px;
+    }
+    .logo{ text-align:center; margin-bottom:14px; }
+    .logo img{ max-width:180px; height:auto; }
+
+    .progress{
+      width:100%; height:15px; background:#e5e7eb;
+      border-radius:999px; overflow:hidden; margin:6px 0 22px;
+    }
+    .progress span{
+      display:block; height:100%; width:15%; /* passo 2 de 5? ajuste à sua lógica */
+      background: var(--green-2);
+      transition: width .3s ease;
+    }
+
+    h2{
+      font-size:22px; line-height:1.25;
+      text-align:center; margin:0 0 8px;
+    }
+    h2 span{ color: var(--green); }
+    p.desc{
+      text-align:center; color:var(--muted);
+      font-size:14px; margin:0 0 20px;
+    }
+
+    .list{ display:flex; flex-direction:column; gap:14px; }
+
+    .option{
+      display:flex; align-items:center; gap:14px;
+      width:100%; background: var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding:12px 14px;
+      cursor:pointer; text-align:left;
+      transition: background .2s, transform .05s;
+      color: var(--text);
+    }
+    .option:hover{ background:#d1fae5; }
+    .option:active{ transform: scale(0.995); }
+
+    .thumb{
+      width:58px; height:58px; border-radius:12px;
+      overflow:hidden; flex:0 0 auto; background:#eef;
+      display:grid; place-items:center;
+    }
+    .thumb img{ width:100%; height:100%; object-fit:cover; }
+
+    .label{
+      font-size:16px; font-weight:600;
+      flex:1; color:#0b1220;
+    }
+    .chev{
+      font-weight:700; color: var(--green);
+      padding-left:8px;
+    }
+
+    @media (max-width: 420px){
+      h2{font-size:20px}
+      .label{font-size:15px}
+      .thumb{width:54px;height:54px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="logo.png" alt="Mounjaro de Pobre">
+    </div>
+
+    <div class="progress"><span></span></div>
+
+    <h2>¿Cómo clasificarías <span>tu cuerpo hoy?</span></h2><br>
+      <div class="list">
+      <button class="option" data-value="Regular">
+        <div class="thumb"><img src="regular.png" alt="Corpo regular"></div>
+        <div class="label">Regular</div>
+        <div class="chev">›</div>
+      </button>
+
+      <button class="option" data-value="Flácido">
+        <div class="thumb"><img src="flacido.png" alt="Corpo flácido"></div>
+        <div class="label">Flácido</div>
+        <div class="chev">›</div>
+      </button>
+
+      <button class="option" data-value="Sobrepeso">
+        <div class="thumb"><img src="sobrepeso.png" alt="Corpo com sobrepeso"></div>
+        <div class="label">Sobrepeso</div>
+        <div class="chev">›</div>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Salva cookie simples
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + d.toUTCString();
+      }
+      document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+
+    // Clique nas opções
+    document.querySelectorAll(".option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const value = btn.getAttribute("data-value");
+        setCookie("corpo_classificacao", value, 7); // mantém por 7 dias
+        // Próxima etapa do quiz:
+        window.location.href = "pergunta-3.html";
+      });
+    });
+  </script>
+</body>
+</html>

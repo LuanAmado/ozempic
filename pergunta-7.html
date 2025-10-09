@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pergunta 7 - Mounjaro de Pobre</title>
+  <style>
+    :root{
+      --green:#16a34a;
+      --green-2:#22c55e;
+      --red:#dc2626;
+      --card-bg:#ecfdf5;
+      --card-border:#bbf7d0;
+      --text:#111827;
+      --muted:#374151;
+      --bg:#f8fafc;
+      --radius:12px;
+      --maxw: 420px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",sans-serif;
+      background: var(--bg);
+      display:flex; justify-content:center;
+      color: var(--text);
+    }
+    .container{
+      width:100%; max-width:var(--maxw);
+      background:#fff; min-height:100vh;
+      padding:20px;
+    }
+    .logo{ text-align:center; margin-bottom:14px; }
+    .logo img{ max-width:180px; height:auto; }
+
+    .progress{
+      width:100%; height:15px; background:#e5e7eb;
+      border-radius:999px; overflow:hidden; margin:6px 0 22px;
+    }
+    .progress span{
+      display:block; height:100%; width:60%; /* ajusta conforme etapa */
+      background: var(--green-2);
+      transition: width .3s ease;
+    }
+
+    h2{
+      font-size:22px; line-height:1.3;
+      text-align:center; margin:0 0 20px;
+    }
+    h2 .red{ color: var(--red); }
+    h2 .green{ color: var(--green); }
+
+    .list{ display:flex; flex-direction:column; gap:14px; }
+
+    .option{
+      display:flex; flex-direction:column; align-items:flex-start;
+      width:100%; background: var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding:14px;
+      cursor:pointer; text-align:left;
+      transition: background .2s, transform .05s;
+      color: var(--text);
+      font-size:15px; font-weight:500;
+    }
+    .option:hover{ background:#d1fae5; }
+    .option:active{ transform: scale(0.99); }
+
+    .emoji{
+      font-size:18px; margin-right:6px;
+    }
+    .label{
+      font-weight:600; display:flex; align-items:center; gap:6px;
+    }
+    .desc{
+      font-size:14px; font-weight:400; color: var(--muted); margin-top:4px;
+    }
+
+    @media (max-width: 420px){
+      h2{font-size:20px}
+      .option{font-size:16px; padding:12px; color:#222;}
+      .desc{font-size:13px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="logo.png" alt="Mounjaro de Pobre">
+    </div> 
+
+    <div class="progress"><span></span></div>
+
+    <h2>¿Qué es lo que más te <span class="red">impide bajar de peso?</span></h2>
+
+    <div class="list">
+      <button class="option" data-value="Falta de tempo - Rotina agitada">
+        <div class="label"><span class="emoji">🕐</span>Falta de tiempo</div>
+        <div class="desc">Routina agitada.</div>
+      </button>
+
+      <button class="option" data-value="Autocontrole - Dificuldade em resistir a tentações alimentares">
+        <div class="label"><span class="emoji">😬</span>Autocontrol</div>
+        <div class="desc">Dificultad para resistir a las tentaciones alimenticias.</div>
+      </button>
+
+      <button class="option" data-value="Financeiro - Achar opções saudáveis mais caras do que alimentos processados">
+        <div class="label"><span class="emoji">💵</span>Falta de dinero.</div>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Função para salvar cookie
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + d.toUTCString();
+      }
+      document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+
+    // Clique em opção
+    document.querySelectorAll(".option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const value = btn.getAttribute("data-value");
+        setCookie("impede_emagrecer", value, 7);
+        window.location.href = "pergunta-8.html";
+      });
+    });
+  </script>
+</body>
+</html>

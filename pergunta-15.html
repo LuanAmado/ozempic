@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pergunta — Horas de Sono | Mounjaro de Pobre</title>
+  <style>
+    :root{
+      --green:#16a34a;
+      --green-2:#22c55e;
+      --text:#111827;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --maxw:420px;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",sans-serif;
+      display:flex; justify-content:center;
+    }
+    .container{
+      width:100%; max-width:var(--maxw);
+      background:#fff; min-height:100vh; padding:20px;
+    }
+    .logo{text-align:center;margin-bottom:14px}
+    .logo img{max-width:180px;height:auto}
+
+    .progress{
+      width:100%; height:8px; background:#e5e7eb;
+      border-radius:999px; overflow:hidden; margin:6px 0 22px;
+    }
+    .progress span{display:block; height:100%; width:50%; background:var(--green-2)}
+
+    h2{
+      font-size:22px; line-height:1.35; text-align:center; margin:0 0 6px;
+      font-weight:800;
+    }
+    h2 .green{color:var(--green)}
+    .sub{
+      text-align:center; font-size:14px; color:var(--muted);
+      margin:0 0 18px;
+    }
+
+    .list{display:flex; flex-direction:column; gap:14px}
+
+    .option{
+      width:100%; display:flex; align-items:center; gap:12px;
+      padding:14px 16px; background:var(--card);
+      border:1px solid var(--border); border-radius:999px;
+      cursor:pointer; text-align:left; transition:box-shadow .15s, transform .04s, border-color .15s;
+    }
+    .option:hover{ border-color:#d1d5db; box-shadow:0 4px 14px rgba(0,0,0,.04) }
+    .option:active{ transform:scale(.99) }
+
+    .emoji{font-size:20px; line-height:1}
+    .label{flex:1; font-size:15px; color:#0b1220; font-weight:600}
+    .chev{
+      width:26px; height:26px; display:grid; place-items:center;
+      background:#ecfdf5; color:var(--green);
+      border-radius:50%; font-size:16px; font-weight:800;
+    }
+
+    @media (max-width:420px){
+      h2{font-size:20px}
+      .label{font-size:14px}
+      .option{padding:12px 14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo"><img src="logo.png" alt="Mounjaro de Pobre"></div>
+
+    <div class="progress"><span></span></div>
+
+    <h2 id="titulo">¿Cuántas <span class="green">horas de sueño</span>  tienes por noche?</h2>
+    <p class="sub">¡La calidad de tu sueño impacta directamente en tu pérdida de peso!</p>
+
+    <div class="list">
+      <button class="option" data-value="Menos de 5 horas">
+        <span class="emoji">😮‍💨</span>
+        <span class="label">Menos de 5 horas</span>
+        <span class="chev">›</span>
+      </button>
+
+      <button class="option" data-value="Entre 5 e 7 horas">
+        <span class="emoji">😯</span>
+        <span class="label">Entre 5 y 7 horas</span>
+        <span class="chev">›</span>
+      </button>
+
+      <button class="option" data-value="Entre 7 e 9 horas">
+        <span class="emoji">😥</span>
+        <span class="label">Entre 7 y 9 horas</span>
+        <span class="chev">›</span>
+      </button>
+
+      <button class="option" data-value="Mais de 9 horas">
+        <span class="emoji">😐</span>
+        <span class="label">Mas de 9 horas</span>
+        <span class="chev">›</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // cookies helpers
+    function setCookie(name, value, days=30){
+      const d = new Date(); d.setTime(d.getTime()+days*24*60*60*1000);
+      document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
+    }
+    function getCookie(name){
+      const target = encodeURIComponent(name);
+      const parts = (document.cookie||'').split('; ');
+      for(const part of parts){
+        const i = part.indexOf('=');
+        if(i===-1) continue;
+        if(part.slice(0,i)===target) return decodeURIComponent(part.slice(i+1));
+      }
+      return '';
+    }
+
+    // Personaliza título com nome, se existir
+    (function(){
+      const nome = getCookie('nome') || getCookie('primeiro_nome') || getCookie('nome_perfil');
+      if(nome){
+        const first = nome.trim().split(/\s+/)[0];
+        document.getElementById('titulo').innerHTML =
+          `${first}, quantas <span class="green">horas de sono</span> você tem por noite?`;
+      }
+    })();
+
+    // Clique nas opções
+    document.querySelectorAll('.option').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        setCookie('horas_sono', btn.getAttribute('data-value'), 60);
+        window.location.href = 'pergunta-17.html';
+      });
+    });
+  </script>
+</body>
+</html>
