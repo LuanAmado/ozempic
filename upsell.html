@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upsell</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/1037d256-f68e-481d-bfba-1dd2569f9bef/players/68e8e428c98b7a8c52bb735a/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/1037d256-f68e-481d-bfba-1dd2569f9bef/68e8e42406665c8710b49076/main.m3u8" as="fetch">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://api.vturb.com.br">
 
+    <style>
+    #bloco-delay {
+      display: none;
+      transition: opacity 0.5s ease;
+      opacity: 0;
+    }
+    #bloco-delay.mostrar {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body style="background-color: #fff">
+
+
+
+  <!-- Topo azul -->
+  <div class="bg-primary text-white text-center py-2 fw-bold">
+    No haga clic en Atrás ni cierre esta página.
+  </div>
+
+  <!-- Conteúdo central -->
+  <div class="container">
+    
+    <!-- Aviso e barra de progresso -->
+    <div class="text-center">
+      <img src="topo.webp" alt="Espere" class="img-fluid col-10 mt-3">
+      
+    </div>
+
+
+
+
+<vturb-smartplayer id="vid-68e8e428c98b7a8c52bb735a" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/1037d256-f68e-481d-bfba-1dd2569f9bef/players/68e8e428c98b7a8c52bb735a/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
+
+
+
+<!-- Bloco oculto inicialmente -->
+  <div id="bloco-delay">
+<!-- HOTMART - Sales Funnel Widget -->
+<!--- sales funnel container --->
+<div id="hotmart-sales-funnel"></div>
+
+<!--- script load and setup --->
+<script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
+<script>
+checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
+</script>
+<!-- HOTMART - Sales Funnel Widget -->
+  </div>
+  <script>
+    setTimeout(function() {
+      const bloco = document.getElementById('bloco-delay');
+      bloco.classList.add('mostrar');
+    }, 190000);
+  </script>
+  </div>
+</body>
+</html>
